@@ -53,7 +53,7 @@ class Game extends React.Component {
   }
 
   undo() {
-    if (this.state.stepNumber == 0) return;
+    if (this.state.stepNumber === 0) return;
     const lastStep = this.state.stepNumber - 1 ;
     this.setState({
       stepNumber: lastStep,
