@@ -5,12 +5,19 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: Array(9).fill(null)
+      squares: Array(9).fill(null),
+      playerX: true
     }
   }
 
   handleClick(i) {
-    alert('Click')
+    const squares = this.state.squares.slice();
+    squares[i] = this.state.playerX ? 'X' : 'O';
+    
+    this.setState({
+      squares: squares,
+      playerX: !this.state.playerX
+    });
   }
 
   renderSquare(i) {
@@ -23,24 +30,23 @@ class Board extends React.Component {
   }
 
   render() {
+    const status = `Next player: ${this.state.playerX ? 'X' : 'O'}`;
+
     return (
-      <React.Fragment>
-        <div className="board-row">
+      <div className="game-board">
+        <p className="game-status">{status}</p>
+        <div className="game-square">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
           {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
           {this.renderSquare(3)}
           {this.renderSquare(4)}
           {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
           {this.renderSquare(6)}
           {this.renderSquare(7)}
           {this.renderSquare(8)}
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
