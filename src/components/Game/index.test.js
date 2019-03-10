@@ -19,9 +19,9 @@ describe('Game', () => {
     expect(wrapperInstance.state.history).toHaveLength(2);
   });
 
-  it('handles startOver', () => {
+  it('handles newGame', () => {
     const wrapperInstance = mount(<Game />).instance();
-    wrapperInstance.startOver();
+    wrapperInstance.newGame();
     expect(wrapperInstance.state.stepNumber).toEqual(0);
   });
 
