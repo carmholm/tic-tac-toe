@@ -38,7 +38,9 @@ body {
   line-height: 1.5;
   letter-spacing: 1px;
 }
-
+.game-button:focus, .game-button:active {
+  outline: none;
+}
 .game-button:disabled {
   background: rgba(53, 75, 96, .5);
   cursor: default;
