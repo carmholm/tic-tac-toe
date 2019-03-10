@@ -5,7 +5,9 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: Array(9).fill(null),
+      history: [{
+        squares: Array(9).fill(null)
+      }],
       playerX: true
     }
   }
@@ -33,20 +35,25 @@ class Game extends React.Component {
   }
 
   handleClick(i) {
-    const squares = this.state.squares.slice();
+    const history = this.state.history;
+    const current = history[history.length - 1];
+    const squares = current.squares.slice();
     if (this.calculateWinner(squares) || squares[i]) {
       return;
     }
     squares[i] = this.state.playerX ? 'X' : 'O';
     this.setState({
-      squares: squares,
+      history: history.concat([{
+        squares: squares
+      }]),
       playerX: !this.state.playerX
     });
   }
 
   render() {
-    const squares = this.state.squares;
-    const winner = this.calculateWinner(squares);
+    const history = this.state.history;
+    const current = history[history.length - 1];
+    const winner = this.calculateWinner(current.squares);
     let status;
 
     if (winner) {
@@ -58,7 +65,7 @@ class Game extends React.Component {
     return (
       <div className='game'>
         <Board
-          squares={squares}
+          squares={current.squares}
           onClick={i => this.handleClick(i)}
         />
         <div className='game-info'>

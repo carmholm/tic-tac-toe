@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import Game from './';
 import Board from '../Board';
 
@@ -11,6 +11,12 @@ describe('Game', () => {
   it('renders Board component', () => {
     const wrapper = shallow(<Game />);
     expect(wrapper.find(Board).length).toEqual(1);
+  });
+
+  it('handles square click', () => {
+    const wrapperInstance = mount(<Game />).instance();
+    wrapperInstance.handleClick(0);
+    expect(wrapperInstance.state.history).toHaveLength(2);
   });
 });
 
