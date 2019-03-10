@@ -61,7 +61,7 @@ class Game extends React.Component {
     })
   }
 
-  startOver() {
+  newGame() {
     this.setState({
       stepNumber: 0,
       playerX: true
@@ -75,23 +75,21 @@ class Game extends React.Component {
 
     let status;
     if (winner) {
-      status = `${winner} wins!`;
+      status = `${winner} WINS!`;
     } else {
-      status = 'Next player: ' + (this.state.playerX ? 'X' : 'O');
+      status = 'NEXT PLAYER: ' + (this.state.playerX ? 'X' : 'O');
     }
 
     return (
       <div className='game'>
+        <p className='game-status'>{status}</p>
         <Board
           squares={current.squares}
           onClick={i => this.handleClick(i)}
         />
-        <div className='game-info'>
-          <p className='game-status'>{status}</p>
-          <button onClick={() => this.startOver()}>Start Over</button>
-          {this.state.stepNumber > 0 &&
-            <button onClick={() => this.undo()}>Undo</button>
-          }
+        <div className='game-controls'>
+          <button className='game-button' onClick={() => this.newGame()}>New Game</button>
+          <button className='game-button' disabled={this.state.stepNumber === 0 || winner} onClick={() => this.undo()}>Undo</button>
         </div>
       </div>
     );
