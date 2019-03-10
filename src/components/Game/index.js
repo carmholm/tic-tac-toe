@@ -8,6 +8,7 @@ class Game extends React.Component {
       history: [{
         squares: Array(9).fill(null)
       }],
+      stepNumber: 0,
       playerX: true
     }
   }
@@ -35,7 +36,7 @@ class Game extends React.Component {
   }
 
   handleClick(i) {
-    const history = this.state.history;
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
     if (this.calculateWinner(squares) || squares[i]) {
@@ -46,16 +47,33 @@ class Game extends React.Component {
       history: history.concat([{
         squares: squares
       }]),
-      playerX: !this.state.playerX
+      stepNumber: history.length,
+      playerX: !this.state.playerX,
     });
+  }
+
+  undo() {
+    if (this.state.stepNumber == 0) return;
+    const lastStep = this.state.stepNumber - 1 ;
+    this.setState({
+      stepNumber: lastStep,
+      playerX: (lastStep % 2) === 0
+    })
+  }
+
+  startOver() {
+    this.setState({
+      stepNumber: 0,
+      playerX: true
+    })
   }
 
   render() {
     const history = this.state.history;
-    const current = history[history.length - 1];
+    const current = history[this.state.stepNumber];
     const winner = this.calculateWinner(current.squares);
-    let status;
 
+    let status;
     if (winner) {
       status = `${winner} wins!`;
     } else {
@@ -70,6 +88,10 @@ class Game extends React.Component {
         />
         <div className='game-info'>
           <p className='game-status'>{status}</p>
+          <button onClick={() => this.startOver()}>Start Over</button>
+          {this.state.stepNumber > 0 &&
+            <button onClick={() => this.undo()}>Undo</button>
+          }
         </div>
       </div>
     );
