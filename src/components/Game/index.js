@@ -11,6 +11,11 @@ class Game extends React.Component {
       stepNumber: 0,
       playerX: true
     }
+
+    this.calculateWinner = this.calculateWinner.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.undo = this.undo.bind(this);
+    this.newGame = this.newGame.bind(this);
   }
 
   calculateWinner(squares) {
